@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Orders</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Center the order box */
+        .orders-box {
+            width: 40%;
+            max-width: 450px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        /* Table Styling */
+        table {
+            width:50%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f4f4f4;
+        }
+        .cta-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    color: white;  /* Text color */
+    background-color: slategrey; /* Change to any color (e.g., red-orange) */
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s ease; /* Smooth color transition */
+}
+
+.cta-button:hover {
+    background-color:skyblue; /* Darker shade for hover effect */
+}
+    </style>
+</head>
+<body>
+
+<!-- Orders Content -->
+<div class="orders-box">
+    <a href="/dashboard" class="cta-button" >Go to Dashboard</a>
+    <h2>Your Orders</h2>
+    {% if orders %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                    <th>Order Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.product }}</td>
+                    <td>{{ order.quantity }}</td>
+                    <td>₹{{ order.total_price if order.total_price else 'N/A' }}</td>
+                    <td>{{ order.status if order.status else 'Pending' }}</td>
+                    <td>{{ order.order_date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No orders found.</p>
+    {% endif %}
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <p>&copy; 2025 Water Can Booking. All rights reserved.</p>
+</div>
+
+</body>
+</html>

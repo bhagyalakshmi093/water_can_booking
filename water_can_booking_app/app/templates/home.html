@@ -1,0 +1,68 @@
+<!-- home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Water Can Booking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .home-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .home-container h1 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-top: -60px;
+        }
+        .home-container p {
+            font-size: 1.2rem;
+            color: #555;
+            margin-top: 10px;
+        }
+        .cta-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            color: white;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .cta-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Water Can Booking</h2>
+        <ul>
+            <li><a href="/home">Home</a></li>
+            <!-- <li><a href="/dashboard">Dashboard</a></li> -->
+            <li><a href="/orders">Orders</a></li>
+            <li><a href="/settings">Settings</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="content home-container">
+        <h1>Welcome to Water Can Booking</h1>
+        <p>Book your water cans quickly and easily.</p>
+        <a href="/dashboard" class="cta-button">Go to Dashboard</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <p>&copy; 2025 Water Can Booking. All rights reserved.</p>
+</div>
+
+</body>
+</html>

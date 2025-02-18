@@ -1,0 +1,149 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .book-now {
+            margin-top: 20px;
+        }
+        .book-now h2{
+            margin-top: -40px;
+        }
+        .book-now form {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Space between elements */
+            flex-wrap: wrap; /* Ensure responsiveness */
+        }
+        .book-now label {
+            font-weight: bold;
+        }
+        .book-now select, 
+        .book-now input {
+            padding: 10px;
+            font-size: 16px;
+            width: 200px; /* Equal width */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .book-now button {
+            padding: 8px 15px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .book-now button:hover {
+            background-color: #218838;
+        }
+        .orders {
+            margin-top: 30px;
+        }
+        .orders table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .orders th, .orders td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        .orders th {
+            background-color: #f4f4f4;
+        }
+        #address {
+            width: 150px; /* Adjust the width as needed */
+        }
+        /* #quantity{
+            width:150px ;
+        } */
+    </style>
+</head>
+<body>
+
+<div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Water Can Booking</h2>
+        <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/orders">Orders</a></li>
+            <li><a href="/settings">Settings</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="content">
+
+        <!-- Book Now Section -->
+        <div class="book-now">
+            <h2>Book Your Water Can</h2>
+            <form action="/book" method="POST">
+                <label for="product">Select Product:</label>
+                <select id="product" name="product_id" required>
+                    <option value="0"> Select Product</option>
+                    <option value="1">Normal Water Can - ₹10</option>
+                    <option value="2">Filtered Water Can - ₹15</option>
+                    <option value="3">Mineral Water Can - ₹20</option>
+                    {% for product in products %}
+                        <option value="{{ product.id }}">{{ product.name }} - ₹{{ product.price }} (Stock: {{ product.stock }})</option>
+                    {% endfor %}
+                </select>
+                 
+                <label for="address">Delivery Address:</label>
+                <input type="text" id="address" name="address" required placeholder="Enter your address">
+
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" min="1" required placeholder="Enter Quantity">
+
+                
+
+                <button id="booknow" onclick="placeholder()"> Book Now</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <p>&copy; 2025 Water Can Booking. All rights reserved.</p>
+</div>
+<script>
+    function placeOrder() {
+        let product_id = document.getElementById("product_id").value;
+        let quantity = document.getElementById("quantity").value;
+
+        fetch('/book', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `product_id=${product_id}&quantity=${quantity}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                alert(data.message); // ✅ Success alert
+                location.reload(); // Refresh dashboard
+            } else {
+                alert(data.error); // ❌ Show error if any
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    }
+</script>
+</body>
+</html>
